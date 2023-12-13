@@ -2,6 +2,8 @@ package net.icxd
 
 import net.icxd.events.EventHandler
 import net.icxd.events.PaintEvent
+import net.icxd.ui.constraints.UIConstraint
+import net.icxd.ui.constraints.UIFixedConstraint
 import net.icxd.ui.elements.UIButton
 import org.lwjgl.glfw.Callbacks.*
 import org.lwjgl.glfw.GLFW.*
@@ -14,7 +16,11 @@ import java.lang.Exception
 import java.lang.RuntimeException
 
 object App {
-    private val eventHandler = EventHandler()
+    @JvmStatic
+    val INSTANCE: App
+        get() = this
+
+    val eventHandler = EventHandler()
     private var window: Long = 0;
 
     @JvmStatic
@@ -72,11 +78,12 @@ object App {
 
         glClearColor(0.3f, 0.2f, 0.3f, 0.0f)
 
+        val btn = UIButton(UIConstraint.fixed(0, 0), UIConstraint.fixed(100, 100))
+
         while (!glfwWindowShouldClose(window)) {
             glClear(GL_COLOR_BUFFER_BIT or GL_DEPTH_BUFFER_BIT)
 
-            val button = UIButton()
-            button.draw(window, eventHandler)
+            eventHandler.notify(PaintEvent(window))
 
             glfwSwapBuffers(window)
             glfwPollEvents()

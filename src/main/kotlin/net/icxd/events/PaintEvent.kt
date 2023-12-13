@@ -1,4 +1,5 @@
 package net.icxd.events
 
-class PaintEvent(val window: Long) : Event() {
+class PaintEvent(private val window: Long) : Event() {
+    override fun toString(): String { return "PaintEvent(window=$window)" }
 }
